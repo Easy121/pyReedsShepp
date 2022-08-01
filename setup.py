@@ -1,7 +1,9 @@
 from distutils.core import setup, Extension
 import os
+
 try:
-	from Cython.Distutils import build_ext
+    from Cython.Distutils import build_ext
+    from Cython.Build import cythonize
 except:
 	use_cython = False
 else:
@@ -21,7 +23,8 @@ ext_modules = [
     Extension("reeds_shepp",
         sources = sources,
         language="c++",
-        include_dirs = ["reeds_shepp/include"])
+        include_dirs = ["reeds_shepp/include"],
+        extra_compile_args=["-std=c++11"])
     ]
 
 def read(filename):
@@ -38,5 +41,5 @@ setup(
     author_email = "guanhorl@andrew.cmu.edu",
     license      = "BSD",
     cmdclass     = cmdclass,
-    ext_modules  = ext_modules,
+    ext_modules  = cythonize(ext_modules),
 	)
